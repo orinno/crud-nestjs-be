@@ -1,8 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { Handler } from 'express';
 
-async function bootstrap() {
+async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  return app.getHttpAdapter().getInstance();
 }
-bootstrap();
+
+// Export the serverless function
+export default bootstrap();
